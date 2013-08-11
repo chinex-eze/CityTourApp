@@ -1,0 +1,85 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.DataSource_photo_display" xmlns:SampleData1="clr-namespace:Expression.Blend.SampleData.DataSource_photos" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
+    x:Class="CityTourApp.Page_photos" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False"
+    ApplicationBar = "{StaticResource GlobalAppBar}">
+
+	<phone:PhoneApplicationPage.Resources>
+		<SampleData:DataSource_photo_display x:Key="DataSource_photo_display" d:IsDataSource="True"/>
+		<SampleData1:DataSource_photos x:Key="DataSource_photos" d:IsDataSource="True"/>
+		<DataTemplate x:Key="ItemTemplate">
+			<StackPanel>
+				<Image Source="{Binding photos}" HorizontalAlignment="Left" Height="106" Width="132"/>
+			</StackPanel>
+		</DataTemplate>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate_Wrap">
+			<toolkit:WrapPanel Height="426" Width="420"/>
+		</ItemsPanelTemplate>
+		<DataTemplate x:Key="ItemTemplate1">
+			<StackPanel>
+				<Image Source="{Binding photo}" HorizontalAlignment="Left" Height="64" Width="64"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate x:Key="ItemTemplate2">
+			<StackPanel>
+				<Image Source="{Binding photo}" HorizontalAlignment="Left" Height="64" Width="64"/>
+			</StackPanel>
+		</DataTemplate>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate_border">
+			<StackPanel/>
+		</ItemsPanelTemplate>
+		<DataTemplate x:Key="DataTemplate1">
+			<Grid Height="136" Width="224"/>
+		</DataTemplate>
+		<DataTemplate x:Key="ItemTemplate3">
+			<StackPanel>
+				<Image Source="{Binding photo}" Height="426" Width="388"/>
+			</StackPanel>
+		</DataTemplate>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+			<StackPanel/>
+		</ItemsPanelTemplate>
+	</phone:PhoneApplicationPage.Resources>
+
+	<phone:PhoneApplicationPage.FontFamily>
+		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+	</phone:PhoneApplicationPage.FontFamily>
+	<!--Panorama-based applications should not show an ApplicationBar-->
+	<phone:PhoneApplicationPage.FontSize>
+		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
+	</phone:PhoneApplicationPage.FontSize>
+	<phone:PhoneApplicationPage.Foreground>
+		<StaticResource ResourceKey="PhoneForegroundBrush"/>
+	</phone:PhoneApplicationPage.Foreground>
+
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot" DataContext="{Binding Source={StaticResource DataSource_photos}}">
+        <controls:Panorama Title="view photos">
+
+            <!--Panorama item one-->
+            <controls:PanoramaItem Header="photos">
+                <Grid>
+                	<ListBox ItemTemplate="{StaticResource ItemTemplate}" ItemsSource="{Binding Collection}" Margin="0,0,0,80" BorderBrush="{x:Null}" ItemsPanel="{StaticResource ItemsPanelTemplate_Wrap}"/>
+                </Grid>
+            </controls:PanoramaItem>
+
+            <!--Panorama item two-->
+            <controls:PanoramaItem Header="photo name" DataContext="{Binding Source={StaticResource DataSource_photo_display}}">
+            	<StackPanel>
+            		<ListBox Height="426" ItemTemplate="{StaticResource ItemTemplate3}" ItemsSource="{Binding Collection}" Width="420" ItemsPanel="{StaticResource ItemsPanelTemplate1}"/>
+            		<Button Content="home" HorizontalAlignment="Right" Height="72" Width="120"/>
+            	</StackPanel>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+    </Grid>
+
+</phone:PhoneApplicationPage>
